@@ -34,17 +34,21 @@ import javax.imageio.ImageIO;
 public class Bird implements ActionListener, MouseListener, KeyListener {
 
 	public static Bird flappyBird;
-	public final int WIDTH = 720, HEIGHT = 640;
 	public static GamePanel gamePanel = new GamePanel();
+
 	public Rectangle theFlappyBird;
+
 	public ArrayList<Rectangle> columns;
-	public Random myRandom;
-	public int ticks, yOffset, score;
-	public boolean gameOver, startProgram = false;
-	public int counter = 0;
 	public BufferedImage image;
-	
-		
+	public Random myRandom;
+
+	public int counter = 0;
+	public int ticks, yOffset, score;
+	public final int WIDTH = 720, HEIGHT = 640;
+
+	public boolean gameOver, startProgram = false;
+
+
 	public static void main(String[] args) throws IOException {
 		
 		flappyBird = new Bird();
@@ -57,7 +61,7 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
             }
         };
         
-        Timer timer = new Timer("MyTimer");//create a new Timer
+        Timer timer = new Timer("MyTimer");
 
         timer.scheduleAtFixedRate(timerTask, 0, 25);
 		
@@ -68,8 +72,7 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 	
 	public Bird() throws IOException {
 		JFrame window = new JFrame();
-//		Timer fps = new Timer(30, this);
-		
+
 		try {
 			image = ImageIO.read(new File("duck.jpg"));
 		} catch(IOException ee){
@@ -96,17 +99,18 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 
 		theFlappyBird = new Rectangle(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 		columns = new ArrayList<>();
+
 		addColumn(true);
 		addColumn(true);
 		addColumn(true);
 		addColumn(true);
-		
-//		fps.start();
+
 	}
 
 	
 	
 	public void addColumn(boolean bool) {
+
 		int space = 225;
 		int width = 80;
 		int height = 50 + myRandom.nextInt(300);
@@ -122,8 +126,7 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 	}
 
 	public void repaint(Graphics g) {
-		
-		
+
 		g.setColor(Color.CYAN);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
@@ -137,13 +140,6 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 		g.fillRect(theFlappyBird.x, theFlappyBird.y, theFlappyBird.width, theFlappyBird.height);
 
         g.drawImage(image, 0, 0, null);
-			
-
-//		ImageIcon newIcon = new ImageIcon(newimg);
-//		JLabel myLabel = new JLabel(newIcon);
-//		gamePanel.add(myLabel);
-		
-		// HIER WIRD DAS IMAGE GELADEN!!!!11!!EINSELF
 		
 		
 		for (Rectangle column : columns) {
@@ -195,7 +191,6 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		System.out.println(counter);
 		counter++;
 		int speed = 10;
 		ticks += 1;
@@ -219,18 +214,16 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 					if (column.y == 0){
 						addColumn(false);
 					}
-
 				}
 			}
 
 			theFlappyBird.y += yOffset;
 
 			for (Rectangle column : columns) {
-				
 				if(theFlappyBird.x == column.x && column.y == 0){
 					score += 1;
 				}
-				
+
 				if (column.intersects(theFlappyBird)) {
 					gameOver = true;
 				}
@@ -241,7 +234,6 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 			}
 		}
 			gamePanel.repaint();
-
 		}
 	
 	public void paintColumn(Graphics g, Rectangle column) {
@@ -249,8 +241,6 @@ public class Bird implements ActionListener, MouseListener, KeyListener {
 		g.fillRect(column.x, column.y, column.width, column.height);
 	}
 
-	
-	// Mouse Listener, unimplementierte Methoden
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		letBirdJump();
